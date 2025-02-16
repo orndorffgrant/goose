@@ -1,0 +1,27 @@
+[package]
+name = "goose"
+version = "0.1.0"
+edition = "2021"
+
+[profile.dev]
+panic = "abort"
+
+[profile.release]
+panic = "abort"
+lto = true
+
+[features]
+default = ["bsp_rpi3"]
+bsp_rpi3 = ["tock-registers"]
+bsp_rpi4 = []
+
+[[bin]]
+name = "goose"
+path = "src/main.rs"
+
+[dependencies]
+
+tock-registers = { version = "0.8.x", default-features = false, features = ["register_types"], optional = true }
+
+[target.'cfg(target_arch = "aarch64")'.dependencies]
+aarch64-cpu = { version = "9.x.x" }
