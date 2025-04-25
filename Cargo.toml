@@ -11,9 +11,10 @@ panic = "abort"
 lto = true
 
 [features]
-default = ["bsp_rpi3"]
+default = []
 bsp_rpi3 = ["tock-registers"]
 bsp_rpi4 = []
+bsp_riscv64_virt = ["tock-registers"]
 
 [[bin]]
 name = "goose"
@@ -25,3 +26,6 @@ tock-registers = { version = "0.8.x", default-features = false, features = ["reg
 
 [target.'cfg(target_arch = "aarch64")'.dependencies]
 aarch64-cpu = { version = "9.x.x" }
+
+[target.'cfg(target_arch = "riscv64")'.dependencies]
+riscv = "0.13.0"

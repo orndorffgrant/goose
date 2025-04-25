@@ -1,8 +1,17 @@
 [build]
 target = "aarch64-unknown-none-softfloat"
 
+
+[target.aarch64-unknown-none-softfloat]
 rustflags = [
   "-C", "target-cpu=cortex-a53",
   "-C", "link-arg=--library-path=src/bsp/raspberrypi",
+  "-C", "link-arg=--script=kernel.ld",
+]
+
+[target.riscv32gc-unknown-none-elf]
+rustflags = [
+  "-C", "target-cpu=generic-rv64",
+  "-C", "link-arg=--library-path=src/bsp/riscv64-virt",
   "-C", "link-arg=--script=kernel.ld",
 ]

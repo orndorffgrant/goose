@@ -8,6 +8,7 @@ mod driver;
 mod panic_wait;
 mod print;
 mod synchronization;
+mod time;
 
 /// Early init code.
 ///
@@ -26,19 +27,32 @@ unsafe fn kernel_init() -> ! {
 
 fn kernel_main() -> ! {
     use console::console;
+    use core::time::Duration;
     
-    println!(
-        "[0] {} version {}",
+    info!(
+        "{} version {}",
         env!("CARGO_PKG_NAME"),
         env!("CARGO_PKG_VERSION")
     );
-    println!("[1] Booting on: {}", bsp::board_name());
+    info!("Booting on: {}", bsp::board_name());
 
-    println!("[2] Drivers loaded:");
+    info!("Drivers loaded:");
     driver::driver_manager().enumerate();
-
-    println!("[3] Chars written: {}", console().chars_written());
-    println!("[4] Echoing input now");
+    
+    info!("Testing timer");
+    time::time_manager().spin_for(Duration::from_nanos(1));
+    info!("Spinning for 1 second");
+    time::time_manager().spin_for(Duration::from_secs(1));
+    info!("Spinning for 1 second");
+    time::time_manager().spin_for(Duration::from_secs(1));
+    info!("Spinning for 1 second");
+    time::time_manager().spin_for(Duration::from_secs(1));
+    info!("Spinning for 1 second");
+    time::time_manager().spin_for(Duration::from_secs(1));
+    
+    info!("Chars written: {}", console().chars_written());
+    
+    info!("Echoing input now");
 
     console().clear_rx();
     loop {

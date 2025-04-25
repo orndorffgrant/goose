@@ -24,7 +24,14 @@ _start:
 .L_prepare_rust:
     ADR_REL	x0, __boot_core_stack_end_exclusive
     mov sp, x0
-    bl _start_rust
+    
+    ADR_REL x1, ARCH_TIMER_COUNTER_FREQUENCY
+    mrs x2, cntfrq_el0
+    cmp x2, xzr
+    b.eq .L_parking_loop
+    str w2, [x1]
+    
+    b _start_rust
     
 .L_parking_loop:
     wfe

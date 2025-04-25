@@ -1,7 +1,5 @@
-use crate::{
-    println,
-    synchronization::{interface::Mutex, NullLock},
-};
+use crate::info;
+use crate::synchronization::{interface::Mutex, NullLock};
 
 const NUM_DRIVERS: usize = 5;
 
@@ -106,7 +104,7 @@ impl DriverManager {
     pub fn enumerate(&self) {
         let mut i: usize = 1;
         self.for_each_descriptor(|d| {
-            println!("    {}. {}", i, d.device_driver.compatible());
+            info!("    {}. {}", i, d.device_driver.compatible());
             i += 1;
         });
     }
